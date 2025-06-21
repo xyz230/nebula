@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# CosmicPulse Theme Installer for Pterodactyl Blueprint
-# Tema ispirato a Nebula con design spaziale e moderno
-# Author: CosmicPulse Team
+# CosmicPulse Theme Installer for Pterodactyl Panel
 # Version: 1.0.0
+# Compatible with Blueprint Extension System
 
 set -e
 
-# Colori per output
+# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -15,227 +14,811 @@ BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 WHITE='\033[1;37m'
-BOLD='\033[1m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Banner ASCII
-show_banner() {
-    clear
-    echo -e "${PURPLE}${BOLD}"
-    echo "  ╔═══════════════════════════════════════════════════════════════╗"
-    echo "  ║                                                               ║"
-    echo "  ║    ██████╗ ██████╗ ███████╗███╗   ███╗██╗ ██████╗            ║"
-    echo "  ║   ██╔══██╗██╔══██╗██╔════╝████╗ ████║██║██╔════╝            ║"
-    echo "  ║   ██║  ██║██████╔╝█████╗  ██╔████╔██║██║██║                 ║"
-    echo "  ║   ██║  ██║██╔══██╗██╔══╝  ██║╚██╔╝██║██║██║                 ║"
-    echo "  ║   ██████╔╝██║  ██║███████╗██║ ╚═╝ ██║██║╚██████╗            ║"
-    echo "  ║   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚═╝ ╚═════╝            ║"
-    echo "  ║                                                               ║"
-    echo "  ║        ██████╗██╗   ██╗██╗     ███████╗███████╗               ║"
-    echo "  ║       ██╔══██╗██║   ██║██║     ██╔════╝██╔════╝               ║"
-    echo "  ║       ██████╔╝██║   ██║██║     ███████╗█████╗                 ║"
-    echo "  ║       ██╔═══╝ ██║   ██║██║     ╚════██║██╔══╝                 ║"
-    echo "  ║       ██║     ╚██████╔╝███████╗███████║███████╗               ║"
-    echo "  ║       ╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝               ║"
-    echo "  ║                                                               ║"
-    echo "  ║              🌌 CosmicPulse Theme Installer 🌌                ║"
-    echo "  ║                   Blueprint Extension                         ║"
-    echo "  ║                                                               ║"
-    echo "  ╚═══════════════════════════════════════════════════════════════╝"
-    echo -e "${NC}"
-    echo -e "${CYAN}Installazione tema spaziale per Pterodactyl Panel${NC}"
-    echo -e "${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+# Animation function
+animate_text() {
+    local text="$1"
+    local delay=0.05
+    for ((i=0; i<${#text}; i++)); do
+        echo -n "${text:$i:1}"
+        sleep $delay
+    done
     echo
 }
 
-# Funzione per log con timestamp
-log() {
-    echo -e "${CYAN}[$(date +'%H:%M:%S')]${NC} $1"
+# Logo and intro
+show_intro() {
+    clear
+    echo -e "${PURPLE}"
+    echo "  ╔═══════════════════════════════════════════════════════════════╗"
+    echo "  ║                                                               ║"
+    echo "  ║    ██████╗ ██████╗ ███████╗███╗   ███╗██╗ ██████╗            ║"
+    echo "  ║   ██╔════╝██╔═══██╗██╔════╝████╗ ████║██║██╔════╝            ║"
+    echo "  ║   ██║     ██║   ██║███████╗██╔████╔██║██║██║                 ║"
+    echo "  ║   ██║     ██║   ██║╚════██║██║╚██╔╝██║██║██║                 ║"
+    echo "  ║   ╚██████╗╚██████╔╝███████║██║ ╚═╝ ██║██║╚██████╗            ║"
+    echo "  ║    ╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝ ╚═════╝            ║"
+    echo "  ║                                                               ║"
+    echo "  ║   ██████╗ ██╗   ██╗██╗     ███████╗███████╗                  ║"
+    echo "  ║   ██╔══██╗██║   ██║██║     ██╔════╝██╔════╝                  ║"
+    echo "  ║   ██████╔╝██║   ██║██║     ███████╗█████╗                    ║"
+    echo "  ║   ██╔═══╝ ██║   ██║██║     ╚════██║██╔══╝                    ║"
+    echo "  ║   ██║     ╚██████╔╝███████╗███████║███████╗                  ║"
+    echo "  ║   ╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝                  ║"
+    echo "  ║                                                               ║"
+    echo "  ║                    Premium Theme for Blueprint                ║"
+    echo "  ╚═══════════════════════════════════════════════════════════════╝"
+    echo -e "${NC}"
+    
+    echo -e "${CYAN}"
+    animate_text "🌌 Benvenuto nell'installer di CosmicPulse Theme"
+    echo -e "${WHITE}Un tema spaziale moderno per il tuo pannello Pterodactyl${NC}"
+    echo
+    sleep 2
 }
 
-# Funzione per errori
-error() {
-    echo -e "${RED}[ERRORE]${NC} $1" >&2
-    exit 1
-}
-
-# Funzione per successi
-success() {
-    echo -e "${GREEN}[SUCCESSO]${NC} $1"
-}
-
-# Funzione per warning
-warning() {
-    echo -e "${YELLOW}[AVVISO]${NC} $1"
-}
-
-# Verifica permessi root
+# Check if running as root
 check_root() {
-    if [[ $EUID -ne 0 ]]; then
-        error "Questo script deve essere eseguito come root (sudo)"
+    if [[ $EUID -eq 0 ]]; then
+        echo -e "${RED}❌ Questo script non deve essere eseguito come root!${NC}"
+        echo -e "${YELLOW}💡 Eseguilo con un utente normale che ha accesso sudo${NC}"
+        exit 1
     fi
 }
 
-# Verifica installazione Blueprint
-check_blueprint() {
-    log "Verifico installazione Blueprint..."
+# Check system requirements
+check_requirements() {
+    echo -e "${BLUE}🔍 Controllo requisiti di sistema...${NC}"
     
-    if ! command -v blueprint &> /dev/null; then
-        error "Blueprint non è installato. Installa prima Blueprint."
+    # Check if Pterodactyl is installed
+    if [ ! -d "/var/www/pterodactyl" ]; then
+        echo -e "${RED}❌ Pterodactyl Panel non trovato in /var/www/pterodactyl${NC}"
+        echo -e "${YELLOW}💡 Assicurati che Pterodactyl sia installato correttamente${NC}"
+        exit 1
     fi
     
-    BLUEPRINT_VERSION=$(blueprint -v 2>/dev/null | head -n1 | cut -d' ' -f2 || echo "unknown")
-    success "Blueprint trovato (versione: $BLUEPRINT_VERSION)"
-}
-
-# Verifica Pterodactyl
-check_pterodactyl() {
-    log "Verifico installazione Pterodactyl..."
-    
-    PTERODACTYL_PATH="/var/www/pterodactyl"
-    if [[ ! -d "$PTERODACTYL_PATH" ]]; then
-        error "Pterodactyl non trovato in $PTERODACTYL_PATH"
+    # Check if Blueprint is installed
+    if [ ! -f "/var/www/pterodactyl/blueprint.sh" ]; then
+        echo -e "${RED}❌ Blueprint non trovato!${NC}"
+        echo -e "${YELLOW}💡 Blueprint è richiesto per installare questo tema${NC}"
+        echo -e "${WHITE}📥 Installando Blueprint automaticamente...${NC}"
+        install_blueprint
     fi
     
-    success "Pterodactyl trovato in $PTERODACTYL_PATH"
+    # Check required commands
+    local commands=("curl" "unzip" "php" "composer")
+    for cmd in "${commands[@]}"; do
+        if ! command -v $cmd &> /dev/null; then
+            echo -e "${RED}❌ $cmd non trovato${NC}"
+            exit 1
+        fi
+    done
+    
+    echo -e "${GREEN}✅ Tutti i requisiti soddisfatti${NC}"
 }
 
-# Crea struttura tema
+# Install Blueprint if not present
+install_blueprint() {
+    echo -e "${BLUE}📦 Installando Blueprint...${NC}"
+    cd /var/www/pterodactyl
+    
+    # Download Blueprint
+    sudo curl -L https://raw.githubusercontent.com/BlueprintFramework/framework/main/scripts/install.sh -o blueprint_install.sh
+    sudo chmod +x blueprint_install.sh
+    sudo bash blueprint_install.sh
+    
+    echo -e "${GREEN}✅ Blueprint installato con successo${NC}"
+}
+
+# Create theme structure
 create_theme_structure() {
-    log "Creazione struttura tema CosmicPulse..."
+    echo -e "${BLUE}🏗️ Creando struttura del tema...${NC}"
     
-    THEME_DIR="/tmp/cosmicpulse_theme"
-    rm -rf "$THEME_DIR"
-    mkdir -p "$THEME_DIR"
+    local theme_dir="/tmp/cosmicpulse_theme"
+    rm -rf $theme_dir
+    mkdir -p $theme_dir
     
-    # Crea conf.yml
-    cat > "$THEME_DIR/conf.yml" << 'EOF'
+    # Create main theme files
+    create_theme_files $theme_dir
+    create_css_files $theme_dir
+    create_js_files $theme_dir
+    create_config_files $theme_dir
+    
+    echo -e "${GREEN}✅ Struttura tema creata${NC}"
+}
+
+# Create config files
+create_config_files() {
+    local theme_dir="$1"
+    
+    # Create Blueprint extension config
+    mkdir -p "$theme_dir/blueprint"
+    cat > "$theme_dir/blueprint/extension.json" << 'EOF'
+{
+    "name": "CosmicPulse",
+    "version": "1.0.0",
+    "description": "Un tema spaziale moderno con effetti cosmici",
+    "author": "CosmicPulse Team",
+    "website": "https://github.com/cosmicpulse/theme",
+    "pterodactyl": ">=1.0.0",
+    "blueprint": ">=1.0.0",
+    "type": "theme",
+    "license": "MIT",
+    "tags": ["theme", "cosmic", "space", "modern"],
+    "icon": "🌌",
+    "files": {
+        "css": ["public/css/cosmicpulse.css"],
+        "js": ["public/js/cosmicpulse.js"],
+        "views": ["resources/views/"]
+    },
+    "dependencies": [],
+    "installation": {
+        "requirements": ["php >= 8.0", "pterodactyl >= 1.0.0"],
+        "steps": [
+            "Copia dei file CSS e JS",
+            "Applicazione del tema",
+            "Configurazione completata"
+        ]
+    }
+}
+EOF
+
+    # Create views directory structure
+    mkdir -p "$theme_dir/resources/views/auth"
+    mkdir -p "$theme_dir/resources/views/layouts"
+    mkdir -p "$theme_dir/resources/views/partials"
+    
+    # Create login view
+    cat > "$theme_dir/resources/views/auth/login.blade.php" << 'EOF'
+@extends('layouts.auth')
+
+@section('title', 'Login')
+
+@section('content')
+<div class="login-container">
+    <div class="cosmic-particles"></div>
+    <div class="login-card">
+        <div class="login-logo">
+            <h1>CosmicPulse</h1>
+            <p class="text-muted">Accedi al tuo universo</p>
+        </div>
+        
+        <form method="POST" action="{{ route('auth.login') }}">
+            @csrf
+            
+            <div class="form-group mb-3">
+                <label for="user">{{ __('auth.username_or_email') }}</label>
+                <input type="text" 
+                       class="form-control @error('user') is-invalid @enderror" 
+                       id="user" 
+                       name="user" 
+                       value="{{ old('user') }}" 
+                       placeholder="Inserisci username o email"
+                       required 
+                       autofocus>
+                @error('user')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="password">{{ __('auth.password') }}</label>
+                <input type="password" 
+                       class="form-control @error('password') is-invalid @enderror" 
+                       id="password" 
+                       name="password" 
+                       placeholder="Inserisci la password"
+                       required>
+                @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            
+            <div class="form-group mb-4">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">
+                        {{ __('auth.remember_me') }}
+                    </label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block mb-3">
+                <i class="fas fa-sign-in-alt"></i> {{ __('auth.sign_in') }}
+            </button>
+            
+            <div class="text-center">
+                <a href="{{ route('auth.password') }}" class="text-muted">
+                    {{ __('auth.forgot_password') }}
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    // Add extra cosmic effects for login page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add glow effect to login form
+        const loginCard = document.querySelector('.login-card');
+        if (loginCard) {
+            loginCard.style.animation = 'cosmic-glow 3s ease-in-out infinite alternate';
+        }
+        
+        // Form submission effect
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<div class="cosmic-loader"></div> Connessione in corso...';
+                submitBtn.disabled = true;
+            });
+        }
+    });
+</script>
+@endsection
+EOF
+
+    # Create main layout
+    cat > "$theme_dir/resources/views/layouts/app.blade.php" << 'EOF'
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title') - {{ config('app.name', 'Pterodactyl') }}</title>
+    
+    <!-- Cosmic Theme CSS -->
+    <link href="{{ asset('themes/cosmicpulse/css/cosmicpulse.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    @yield('styles')
+</head>
+<body class="cosmic-theme">
+    <!-- Cosmic Background -->
+    <div class="cosmic-particles"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('index') }}">
+                <i class="fas fa-rocket"></i> CosmicPulse
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('index') }}">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('server.index') }}">
+                            <i class="fas fa-server"></i> Server
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('account') }}">
+                            <i class="fas fa-user"></i> Account
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> {{ Auth::user()->name_first }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('account') }}">Account</a></li>
+                            <li><a class="dropdown-item" href="{{ route('account.security') }}">Sicurezza</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ route('auth.logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <div class="container-fluid py-4">
+            @yield('content')
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="text-center">
+                <p>&copy; {{ date('Y') }} CosmicPulse Theme. Powered by Pterodactyl Panel.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('themes/cosmicpulse/js/cosmicpulse.js') }}"></script>
+    @yield('scripts')
+</body>
+</html>
+EOF
+
+    # Create auth layout
+    cat > "$theme_dir/resources/views/layouts/auth.blade.php" << 'EOF'
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title') - {{ config('app.name', 'Pterodactyl') }}</title>
+    
+    <!-- Cosmic Theme CSS -->
+    <link href="{{ asset('themes/cosmicpulse/css/cosmicpulse.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        @keyframes cosmic-glow {
+            0% { box-shadow: 0 20px 60px rgba(120, 9, 183, 0.3); }
+            100% { box-shadow: 0 20px 60px rgba(66, 226, 184, 0.3); }
+        }
+    </style>
+    
+    @yield('styles')
+</head>
+<body class="cosmic-theme">
+    @yield('content')
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('themes/cosmicpulse/js/cosmicpulse.js') }}"></script>
+    @yield('scripts')
+</body>
+</html>
+EOF
+
+    echo -e "${GREEN}✅ File di configurazione creati${NC}"
+}
+
+# Install theme
+install_theme() {
+    echo -e "${BLUE}🚀 Installando CosmicPulse Theme...${NC}"
+    
+    local theme_dir="/tmp/cosmicpulse_theme"
+    local pterodactyl_dir="/var/www/pterodactyl"
+    
+    # Create theme directory in pterodactyl
+    sudo mkdir -p "$pterodactyl_dir/public/themes/cosmicpulse"
+    
+    # Copy files
+    echo -e "${YELLOW}📋 Copiando file del tema...${NC}"
+    sudo cp -r "$theme_dir/public/"* "$pterodactyl_dir/public/themes/cosmicpulse/"
+    
+    # Copy views if they exist
+    if [ -d "$theme_dir/resources/views" ]; then
+        sudo mkdir -p "$pterodactyl_dir/resources/views/themes/cosmicpulse"
+        sudo cp -r "$theme_dir/resources/views/"* "$pterodactyl_dir/resources/views/themes/cosmicpulse/"
+    fi
+    
+    # Set proper permissions
+    sudo chown -R www-data:www-data "$pterodactyl_dir/public/themes/cosmicpulse"
+    sudo chmod -R 755 "$pterodactyl_dir/public/themes/cosmicpulse"
+    
+    echo -e "${GREEN}✅ File del tema installati${NC}"
+}
+
+# Configure theme
+configure_theme() {
+    echo -e "${BLUE}⚙️ Configurando CosmicPulse Theme...${NC}"
+    
+    local pterodactyl_dir="/var/www/pterodactyl"
+    
+    # Create theme configuration
+    cat > "/tmp/cosmicpulse_config.php" << 'EOF'
+<?php
+
+return [
+    'name' => 'CosmicPulse',
+    'version' => '1.0.0',
+    'author' => 'CosmicPulse Team',
+    'description' => 'Un tema spaziale moderno con effetti cosmici',
+    
+    'assets' => [
+        'css' => [
+            'themes/cosmicpulse/css/cosmicpulse.css'
+        ],
+        'js' => [
+            'themes/cosmicpulse/js/cosmicpulse.js'
+        ]
+    ],
+    
+    'settings' => [
+        'particle_effects' => true,
+        'cosmic_glow' => true,
+        'cursor_trail' => true,
+        'animations' => true,
+        'color_scheme' => 'cosmic'
+    ]
+];
+EOF
+
+    sudo mv "/tmp/cosmicpulse_config.php" "$pterodactyl_dir/config/themes/cosmicpulse.php"
+    sudo chown www-data:www-data "$pterodactyl_dir/config/themes/cosmicpulse.php"
+    
+    echo -e "${GREEN}✅ Tema configurato${NC}"
+}
+
+# Apply theme
+apply_theme() {
+    echo -e "${BLUE}🎨 Applicando CosmicPulse Theme...${NC}"
+    
+    local pterodactyl_dir="/var/www/pterodactyl"
+    
+    # Create custom CSS injection
+    cat > "/tmp/cosmicpulse_inject.css" << 'EOF'
+/* CosmicPulse Theme Auto-Injection */
+@import url('/themes/cosmicpulse/css/cosmicpulse.css');
+
+/* Additional global overrides */
+body {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(120, 9, 183, 0.5);
+}
+
+/* Ensure theme loads on all pages */
+html {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0d2e 50%, #16213e 100%);
+    min-height: 100vh;
+}
+EOF
+
+    # Inject CSS into main layout
+    if [ -f "$pterodactyl_dir/resources/views/layouts/admin.blade.php" ]; then
+        sudo sed -i '/<\/head>/i\    <link href="{{ asset('"'"'themes/cosmicpulse/css/cosmicpulse.css'"'"') }}" rel="stylesheet">' "$pterodactyl_dir/resources/views/layouts/admin.blade.php"
+    fi
+    
+    if [ -f "$pterodactyl_dir/resources/views/templates/wrapper.blade.php" ]; then
+        sudo sed -i '/<\/head>/i\    <link href="{{ asset('"'"'themes/cosmicpulse/css/cosmicpulse.css'"'"') }}" rel="stylesheet">' "$pterodactyl_dir/resources/views/templates/wrapper.blade.php"
+    fi
+    
+    # Copy inject CSS
+    sudo cp "/tmp/cosmicpulse_inject.css" "$pterodactyl_dir/public/themes/cosmicpulse/css/"
+    
+    echo -e "${GREEN}✅ Tema applicato con successo${NC}"
+}
+
+# Clear cache
+clear_cache() {
+    echo -e "${BLUE}🧹 Pulendo cache...${NC}"
+    
+    cd /var/www/pterodactyl
+    sudo php artisan config:clear
+    sudo php artisan cache:clear
+    sudo php artisan view:clear
+    sudo php artisan route:clear
+    
+    echo -e "${GREEN}✅ Cache pulita${NC}"
+}
+
+# Show completion message
+show_completion() {
+    clear
+    echo -e "${PURPLE}"
+    echo "  ╔═══════════════════════════════════════════════════════════════╗"
+    echo "  ║                                                               ║"
+    echo "  ║                 🌌 INSTALLAZIONE COMPLETATA! 🌌                ║"
+    echo "  ║                                                               ║"
+    echo "  ║   CosmicPulse Theme è stato installato con successo!          ║"
+    echo "  ║                                                               ║"
+    echo "  ║   Funzionalità installate:                                    ║"
+    echo "  ║   ✅ Design spaziale con effetti cosmici                      ║"
+    echo "  ║   ✅ Animazioni fluide e transizioni                         ║"
+    echo "  ║   ✅ Login personalizzato                                     ║"
+    echo "  ║   ✅ Effetti particellari                                     ║"
+    echo "  ║   ✅ Cursore luminoso                                         ║"
+    echo "  ║   ✅ Interfaccia completamente funzionante                    ║"
+    echo "  ║                                                               ║"
+    echo "  ║   Riavvia il tuo browser e goditi il nuovo tema!              ║"
+    echo "  ║                                                               ║"
+    echo "  ╚═══════════════════════════════════════════════════════════════╝"
+    echo -e "${NC}"
+    
+    echo -e "${CYAN}🎉 Installazione completata con successo!${NC}"
+    echo -e "${WHITE}📱 Il tema è ora attivo sul tuo pannello Pterodactyl${NC}"
+    echo -e "${YELLOW}🔄 Ricarica la pagina per vedere il nuovo tema${NC}"
+    echo
+    echo -e "${GREEN}Grazie per aver scelto CosmicPulse Theme!${NC}"
+}
+
+# Main installation process
+main() {
+    show_intro
+    
+    echo -e "${CYAN}🚀 Iniziando l'installazione di CosmicPulse Theme...${NC}"
+    echo
+    
+    check_root
+    check_requirements
+    create_theme_structure
+    install_theme
+    configure_theme
+    apply_theme
+    clear_cache
+    
+    # Cleanup
+    rm -rf /tmp/cosmicpulse_theme
+    rm -f /tmp/cosmicpulse_*.css
+    rm -f /tmp/cosmicpulse_*.php
+    
+    show_completion
+}
+
+# Error handling
+trap 'echo -e "${RED}❌ Errore durante l'\''installazione!${NC}"; exit 1' ERR
+
+# Run main function
+main "$@"
+
+# Create main theme files
+create_theme_files() {
+    local theme_dir="$1"
+    
+    # Create conf.yml
+    cat > "$theme_dir/conf.yml" << 'EOF'
 info:
   name: "CosmicPulse"
-  description: "Tema spaziale moderno ispirato a Nebula per Pterodactyl Panel"
+  description: "Un tema spaziale moderno con effetti cosmici e design futuristico"
   author: "CosmicPulse Team"
   version: "1.0.0"
   target: "indev"
   
 admin:
-  view: "admin/extensions/cosmicpulse/index.blade.php"
-  controller: "Admin/Extensions/CosmicPulse/CosmicPulseExtensionController.php"
-  css: "cosmicpulse.css"
-  wrapper: "admin/extensions/cosmicpulse/wrapper.blade.php"
-
+  view: "/admin"
+  controller: "/admin"
+  admin: true
+  
 requests:
   routers:
-    client: "routes/client.php"
-    admin: "routes/admin.php"
-  views:
-    client: "resources/views/client"
-    admin: "resources/views/admin"
-  controllers:
-    client: "app/Http/Controllers/Client"
-    admin: "app/Http/Controllers/Admin"
-
-database:
-  migrations: "database/migrations"
+    client: "CosmicPulseServiceProvider"
+    admin: "CosmicPulseServiceProvider"
+    
+data:
+  public: "public"
+  console: false
+  database: false
+  
+export:
+  console: false
+  database: false
+  zip: false
 EOF
 
-    # Crea CSS principale
-    mkdir -p "$THEME_DIR/public"
-    cat > "$THEME_DIR/public/cosmicpulse.css" << 'EOF'
-/* CosmicPulse Theme - Ispirato a Nebula */
+    # Create routes
+    mkdir -p "$theme_dir/routes"
+    cat > "$theme_dir/routes/web.php" << 'EOF'
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/cosmicpulse', function () {
+    return response()->json(['status' => 'CosmicPulse Theme Active']);
+});
+EOF
+}
+
+# Create CSS files
+create_css_files() {
+    local theme_dir="$1"
+    mkdir -p "$theme_dir/public/css"
+    
+    # Main theme CSS
+    cat > "$theme_dir/public/css/cosmicpulse.css" << 'EOF'
+/* CosmicPulse Theme - Cosmic Space Design */
 
 :root {
-    --cosmic-bg-primary: #0a0a0f;
-    --cosmic-bg-secondary: #151520;
-    --cosmic-bg-tertiary: #1e1e2e;
-    --cosmic-accent: #7c3aed;
-    --cosmic-accent-light: #a855f7;
-    --cosmic-accent-dark: #5b21b6;
-    --cosmic-text-primary: #ffffff;
-    --cosmic-text-secondary: #d1d5db;
-    --cosmic-text-muted: #9ca3af;
-    --cosmic-border: #374151;
-    --cosmic-success: #10b981;
-    --cosmic-warning: #f59e0b;
-    --cosmic-error: #ef4444;
-    --cosmic-glow: 0 0 20px rgba(124, 58, 237, 0.3);
-    --cosmic-glow-strong: 0 0 30px rgba(124, 58, 237, 0.5);
+    --cosmic-primary: #1a0d2e;
+    --cosmic-secondary: #16213e;
+    --cosmic-accent: #0f3460;
+    --cosmic-highlight: #533483;
+    --cosmic-purple: #7209b7;
+    --cosmic-blue: #2d82b7;
+    --cosmic-cyan: #42e2b8;
+    --cosmic-pink: #f72585;
+    --cosmic-orange: #fb8500;
+    --cosmic-dark: #0a0a0f;
+    --cosmic-light: #ffffff;
+    --cosmic-gray: rgba(255, 255, 255, 0.1);
 }
 
-/* Animazioni base */
-@keyframes cosmic-float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+/* Global Styles */
+* {
+    box-sizing: border-box;
 }
 
-@keyframes cosmic-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-@keyframes cosmic-glow {
-    0%, 100% { box-shadow: var(--cosmic-glow); }
-    50% { box-shadow: var(--cosmic-glow-strong); }
-}
-
-@keyframes starfield {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-100vh); }
-}
-
-/* Background cosmico */
 body {
-    background: var(--cosmic-bg-primary);
-    background-image: 
-        radial-gradient(circle at 25% 25%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-    color: var(--cosmic-text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, var(--cosmic-dark) 0%, var(--cosmic-primary) 50%, var(--cosmic-secondary) 100%);
+    background-attachment: fixed;
+    color: var(--cosmic-light);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
     min-height: 100vh;
-    position: relative;
     overflow-x: hidden;
 }
 
-/* Stelle animate di background */
+/* Animated background */
 body::before {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 200vh;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: starfield 50s linear infinite;
-    pointer-events: none;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(120, 9, 183, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(45, 130, 183, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(66, 226, 184, 0.2) 0%, transparent 50%);
+    animation: cosmicPulse 20s ease-in-out infinite;
     z-index: -1;
-    opacity: 0.3;
 }
 
-/* Login Page Styling */
+@keyframes cosmicPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+/* Particles effect */
+.cosmic-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--cosmic-cyan);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+/* Navigation */
+.navbar, nav {
+    background: rgba(26, 13, 46, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--cosmic-gray);
+    box-shadow: 0 4px 20px rgba(120, 9, 183, 0.3);
+}
+
+.navbar-brand, .nav-link {
+    color: var(--cosmic-light) !important;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--cosmic-cyan) !important;
+    text-shadow: 0 0 10px var(--cosmic-cyan);
+}
+
+/* Cards and Panels */
+.card, .panel {
+    background: rgba(22, 33, 62, 0.9) !important;
+    border: 1px solid var(--cosmic-gray);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover, .panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(120, 9, 183, 0.4);
+}
+
+.card-header {
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-blue)) !important;
+    border-bottom: none;
+    color: var(--cosmic-light);
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 25px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-pink));
+    border: none;
+    box-shadow: 0 4px 15px rgba(120, 9, 183, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(120, 9, 183, 0.6);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, var(--cosmic-blue), var(--cosmic-cyan));
+    border: none;
+    box-shadow: 0 4px 15px rgba(45, 130, 183, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, var(--cosmic-cyan), #00ff88);
+    border: none;
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, var(--cosmic-pink), #ff4757);
+    border: none;
+}
+
+/* Login Form */
 .login-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
     position: relative;
 }
 
 .login-card {
-    background: var(--cosmic-bg-secondary);
-    border: 1px solid var(--cosmic-border);
-    border-radius: 1rem;
-    padding: 3rem;
-    width: 100%;
+    background: rgba(22, 33, 62, 0.95);
+    border: 1px solid var(--cosmic-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px);
     max-width: 400px;
-    box-shadow: var(--cosmic-glow);
-    backdrop-filter: blur(10px);
+    width: 100%;
     position: relative;
     overflow: hidden;
 }
@@ -243,926 +826,551 @@ body::before {
 .login-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--cosmic-accent), transparent);
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        var(--cosmic-purple),
+        var(--cosmic-blue),
+        var(--cosmic-cyan),
+        var(--cosmic-purple)
+    );
+    animation: rotate 20s linear infinite;
+    z-index: -1;
 }
 
-.login-header {
-    text-align: center;
-    margin-bottom: 2rem;
+.login-card::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: rgba(22, 33, 62, 0.95);
+    border-radius: 18px;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .login-logo {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1rem;
-    background: linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-accent-light));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: white;
-    animation: cosmic-float 3s ease-in-out infinite;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.login-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--cosmic-text-primary);
-    margin-bottom: 0.5rem;
+.login-logo h1 {
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(120, 9, 183, 0.5);
 }
 
-.login-subtitle {
-    color: var(--cosmic-text-muted);
-    font-size: 0.875rem;
-}
-
-/* Form Styling */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--cosmic-text-secondary);
-    font-weight: 500;
-    font-size: 0.875rem;
-}
-
+/* Form Controls */
 .form-control {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: var(--cosmic-bg-tertiary);
-    border: 1px solid var(--cosmic-border);
-    border-radius: 0.5rem;
-    color: var(--cosmic-text-primary);
-    font-size: 0.875rem;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid var(--cosmic-gray);
+    border-radius: 10px;
+    color: var(--cosmic-light);
+    padding: 12px 15px;
     transition: all 0.3s ease;
 }
 
 .form-control:focus {
-    outline: none;
-    border-color: var(--cosmic-accent);
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: var(--cosmic-cyan);
+    box-shadow: 0 0 20px rgba(66, 226, 184, 0.3);
+    color: var(--cosmic-light);
 }
 
 .form-control::placeholder {
-    color: var(--cosmic-text-muted);
-}
-
-/* Button Styling */
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    font-size: 0.875rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-accent-light));
-    color: white;
-    width: 100%;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--cosmic-accent-dark), var(--cosmic-accent));
-    box-shadow: var(--cosmic-glow);
-    transform: translateY(-1px);
-}
-
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-}
-
-.btn-primary:hover::before {
-    left: 100%;
-}
-
-/* Navigation */
-.navbar {
-    background: rgba(21, 21, 32, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--cosmic-border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.navbar-brand {
-    color: var(--cosmic-text-primary) !important;
-    font-weight: 600;
-    font-size: 1.25rem;
-}
-
-.nav-link {
-    color: var(--cosmic-text-secondary) !important;
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: var(--cosmic-accent-light) !important;
-}
-
-/* Cards */
-.card {
-    background: var(--cosmic-bg-secondary);
-    border: 1px solid var(--cosmic-border);
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    box-shadow: var(--cosmic-glow);
-    transform: translateY(-2px);
-}
-
-.card-header {
-    background: var(--cosmic-bg-tertiary);
-    border-bottom: 1px solid var(--cosmic-border);
-    color: var(--cosmic-text-primary);
-    font-weight: 600;
-}
-
-.card-body {
-    color: var(--cosmic-text-secondary);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 /* Tables */
 .table {
-    color: var(--cosmic-text-secondary);
+    background: rgba(22, 33, 62, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var(--cosmic-gray);
 }
 
-.table-dark {
-    background: var(--cosmic-bg-secondary);
+.table th {
+    background: var(--cosmic-secondary);
+    color: var(--cosmic-light);
+    border-color: var(--cosmic-gray);
+    font-weight: 600;
 }
 
-.table-dark th {
-    background: var(--cosmic-bg-tertiary);
-    border-color: var(--cosmic-border);
-    color: var(--cosmic-text-primary);
+.table td {
+    color: var(--cosmic-light);
+    border-color: var(--cosmic-gray);
 }
 
-.table-dark td {
-    border-color: var(--cosmic-border);
+.table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-/* Alerts */
-.alert-success {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid var(--cosmic-success);
-    color: var(--cosmic-success);
-}
-
-.alert-warning {
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid var(--cosmic-warning);
-    color: var(--cosmic-warning);
-}
-
-.alert-danger {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid var(--cosmic-error);
-    color: var(--cosmic-error);
-}
-
-/* Server Cards */
-.server-card {
-    background: var(--cosmic-bg-secondary);
-    border: 1px solid var(--cosmic-border);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-    position: relative;
+/* Progress Bars */
+.progress {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     overflow: hidden;
 }
 
-.server-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cosmic-accent), var(--cosmic-accent-light));
+.progress-bar {
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-cyan));
+    transition: width 0.6s ease;
 }
 
-.server-card:hover {
-    box-shadow: var(--cosmic-glow);
-    transform: translateY(-3px);
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
 }
 
-.server-status.online {
-    color: var(--cosmic-success);
+.alert-success {
+    background: rgba(66, 226, 184, 0.2);
+    color: var(--cosmic-cyan);
+    border: 1px solid var(--cosmic-cyan);
 }
 
-.server-status.offline {
-    color: var(--cosmic-error);
+.alert-danger {
+    background: rgba(247, 37, 133, 0.2);
+    color: var(--cosmic-pink);
+    border: 1px solid var(--cosmic-pink);
 }
 
-.server-status.starting {
-    color: var(--cosmic-warning);
-    animation: cosmic-pulse 2s infinite;
+.alert-info {
+    background: rgba(45, 130, 183, 0.2);
+    color: var(--cosmic-blue);
+    border: 1px solid var(--cosmic-blue);
 }
 
-/* Status Indicators */
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 0.5rem;
-    animation: cosmic-pulse 2s infinite;
+/* Sidebar */
+.sidebar {
+    background: rgba(26, 13, 46, 0.95) !important;
+    border-right: 1px solid var(--cosmic-gray);
+    backdrop-filter: blur(10px);
 }
 
-.status-dot.online {
-    background: var(--cosmic-success);
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin: 5px 10px;
 }
 
-.status-dot.offline {
-    background: var(--cosmic-error);
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-blue));
+    color: var(--cosmic-light);
+    box-shadow: 0 4px 15px rgba(120, 9, 183, 0.4);
 }
 
-.status-dot.starting {
-    background: var(--cosmic-warning);
+/* Content Area */
+.content-wrapper {
+    background: transparent;
+    min-height: calc(100vh - 60px);
 }
 
-/* Scrollbar Styling */
+/* Footer */
+.footer {
+    background: rgba(26, 13, 46, 0.9);
+    color: var(--cosmic-light);
+    padding: 20px 0;
+    border-top: 1px solid var(--cosmic-gray);
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-card {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+    
+    .card {
+        margin: 10px;
+    }
+    
+    .login-logo h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--cosmic-bg-primary);
+    background: var(--cosmic-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--cosmic-accent);
-    border-radius: 4px;
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-cyan));
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--cosmic-accent-light);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .login-card {
-        padding: 2rem;
-        margin: 1rem;
-    }
-    
-    .server-card {
-        padding: 1rem;
-    }
+    background: linear-gradient(45deg, var(--cosmic-cyan), var(--cosmic-purple));
 }
 
 /* Loading Animation */
 .cosmic-loader {
+    display: inline-block;
     width: 40px;
     height: 40px;
-    border: 3px solid var(--cosmic-bg-tertiary);
-    border-top: 3px solid var(--cosmic-accent);
+    border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
+    border-top-color: var(--cosmic-cyan);
+    animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* Cosmic Effects */
-.cosmic-glow {
-    animation: cosmic-glow 3s ease-in-out infinite;
+/* Status Indicators */
+.status-online {
+    color: var(--cosmic-cyan) !important;
+    text-shadow: 0 0 10px var(--cosmic-cyan);
 }
 
-.cosmic-float {
-    animation: cosmic-float 4s ease-in-out infinite;
+.status-offline {
+    color: var(--cosmic-pink) !important;
+    text-shadow: 0 0 10px var(--cosmic-pink);
+}
+
+.status-starting {
+    color: var(--cosmic-orange) !important;
+    text-shadow: 0 0 10px var(--cosmic-orange);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Console Terminal */
+.console {
+    background: var(--cosmic-dark) !important;
+    border: 1px solid var(--cosmic-purple);
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    color: var(--cosmic-cyan);
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.console pre {
+    color: var(--cosmic-light);
+    margin: 0;
+}
+
+/* Modal */
+.modal-content {
+    background: rgba(22, 33, 62, 0.95);
+    border: 1px solid var(--cosmic-purple);
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--cosmic-gray);
+    background: linear-gradient(45deg, var(--cosmic-purple), var(--cosmic-blue));
+}
+
+.modal-footer {
+    border-top: 1px solid var(--cosmic-gray);
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background: rgba(22, 33, 62, 0.95);
+    border: 1px solid var(--cosmic-gray);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+    color: var(--cosmic-light);
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: var(--cosmic-purple);
+    color: var(--cosmic-light);
 }
 EOF
+}
 
-    # Crea template login
-    mkdir -p "$THEME_DIR/resources/views/auth"
-    cat > "$THEME_DIR/resources/views/auth/login.blade.php" << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name', 'Pterodactyl') }} - Login</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="robots" content="noindex">
+# Create JavaScript files
+create_js_files() {
+    local theme_dir="$1"
+    mkdir -p "$theme_dir/public/js"
     
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/favicons/manifest.json">
-    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#bc6e3c">
-    <link rel="shortcut icon" href="/favicons/favicon.ico">
-    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
-    <meta name="theme-color" content="#0e4688">
+    # Main theme JavaScript
+    cat > "$theme_dir/public/js/cosmicpulse.js" << 'EOF'
+// CosmicPulse Theme JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCosmicEffects();
+    initializeAnimations();
+    initializeInteractions();
+});
+
+// Initialize cosmic particle effects
+function initializeCosmicEffects() {
+    createParticles();
+    initializeGlowEffects();
+}
+
+// Create floating particles
+function createParticles() {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'cosmic-particles';
+    document.body.appendChild(particlesContainer);
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="/css/cosmicpulse.css">
-</head>
-<body class="login-page">
-    <div class="login-container">
-        <div class="login-card cosmic-glow">
-            <div class="login-header">
-                <div class="login-logo cosmic-float">
-                    🌌
-                </div>
-                <h1 class="login-title">{{ config('app.name', 'Pterodactyl') }}</h1>
-                <p class="login-subtitle">Accedi al tuo pannello di controllo cosmico</p>
-            </div>
-            
-            @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    @lang('auth.auth_error')
-                </div>
-            @endif
-            
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            
-            <form id="loginForm" action="{{ route('auth.login') }}" method="POST">
-                <div class="form-group">
-                    <label class="form-label" for="user">@lang('strings.user_identifier')</label>
-                    <input class="form-control" type="text" name="user" id="user" required autofocus placeholder="Email o Username">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="password">@lang('strings.password')</label>
-                    <input class="form-control" type="password" name="password" id="password" required placeholder="Password">
-                </div>
-                
-                <div class="form-group">
-                    <div class="checkbox">
-                        <input type="checkbox" name="remember_me" id="remember_me" value="1">
-                        <label for="remember_me" class="form-label">@lang('auth.remember_me')</label>
-                    </div>
-                </div>
-                
-                {!! csrf_field() !!}
-                <button class="btn btn-primary" type="submit">
-                    <span class="btn-text">@lang('auth.sign_in')</span>
-                </button>
-            </form>
-            
-            @if(!empty($recaptcha_enabled))
-                @include('partials/recaptcha')
-            @endif
-            
-            <div class="text-center" style="margin-top: 1.5rem;">
-                <a href="{{ route('auth.password') }}" class="small" style="color: var(--cosmic-accent);">
-                    @lang('auth.forgot_password')
-                </a>
-            </div>
-        </div>
-    </div>
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+// Initialize glow effects
+function initializeGlowEffects() {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            this.style.boxShadow = '0 0 20px rgba(120, 9, 183, 0.8)';
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+            this.style.boxShadow = '';
+        });
+    });
+}
+
+// Initialize page animations
+function initializeAnimations() {
+    const cards = document.querySelectorAll('.card, .panel');
     
-    <script src="{{ mix('js/app.js') }}"></script>
-    
-    <script>
-        // Effetti particellari aggiuntivi
-        function createParticles() {
-            const particleCount = 50;
-            const particles = [];
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'cosmic-particle';
-                particle.style.cssText = `
-                    position: fixed;
-                    width: 2px;
-                    height: 2px;
-                    background: rgba(124, 58, 237, 0.6);
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: -1;
-                `;
-                document.body.appendChild(particle);
-                particles.push({
-                    element: particle,
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5
-                });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
             }
-            
-            function animateParticles() {
-                particles.forEach(particle => {
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
-                    
-                    if (particle.x < 0 || particle.x > window.innerWidth) particle.vx *= -1;
-                    if (particle.y < 0 || particle.y > window.innerHeight) particle.vy *= -1;
-                    
-                    particle.element.style.left = particle.x + 'px';
-                    particle.element.style.top = particle.y + 'px';
-                });
-                
-                requestAnimationFrame(animateParticles);
-            }
-            
-            animateParticles();
+        });
+    });
+    
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+}
+
+// Initialize interactive elements
+function initializeInteractions() {
+    // Add ripple effect to buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', createRipple);
+    });
+    
+    // Add cosmic cursor trail
+    initializeCursorTrail();
+}
+
+// Create ripple effect
+function createRipple(event) {
+    const button = event.currentTarget;
+    const ripple = document.createElement('span');
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+    `;
+    
+    button.style.position = 'relative';
+    button.style.overflow = 'hidden';
+    button.appendChild(ripple);
+    
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
+}
+
+// Add CSS for ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize cursor trail
+function initializeCursorTrail() {
+    const trail = [];
+    const trailLength = 20;
+    
+    for (let i = 0; i < trailLength; i++) {
+        const dot = document.createElement('div');
+        dot.style.cssText = `
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(66, 226, 184, ${1 - i / trailLength});
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(dot);
+        trail.push(dot);
+    }
+    
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    function updateTrail() {
+        currentX += (mouseX - currentX) * 0.1;
+        currentY += (mouseY - currentY) * 0.1;
+        
+        trail.forEach((dot, index) => {
+            const nextDot = trail[index + 1] || { offsetLeft: currentX, offsetTop: currentY };
+            dot.style.left = nextDot.offsetLeft + 'px';
+            dot.style.top = nextDot.offsetTop + 'px';
+        });
+        
+        if (trail[0]) {
+            trail[0].style.left = currentX + 'px';
+            trail[0].style.top = currentY + 'px';
         }
         
-        // Avvia particelle dopo il caricamento
-        window.addEventListener('load', createParticles);
+        requestAnimationFrame(updateTrail);
+    }
+    
+    updateTrail();
+}
+
+// Status indicators animation
+function animateStatusIndicators() {
+    const statusElements = document.querySelectorAll('.status-online, .status-offline, .status-starting');
+    
+    statusElements.forEach(element => {
+        if (element.classList.contains('status-online')) {
+            element.style.animation = 'pulse 2s ease-in-out infinite';
+        }
+    });
+}
+
+// Console typing effect
+function initializeConsoleEffect() {
+    const consoleElements = document.querySelectorAll('.console pre');
+    
+    consoleElements.forEach(console => {
+        const text = console.textContent;
+        console.textContent = '';
         
-        // Animazione form
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            const btn = this.querySelector('.btn-primary');
-            const btnText = btn.querySelector('.btn-text');
+        let i = 0;
+        const typeWriter = () => {
+            if (i < text.length) {
+                console.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        };
+        
+        typeWriter();
+    });
+}
+
+// Loading animation
+function showCosmicLoader(element) {
+    const loader = document.createElement('div');
+    loader.className = 'cosmic-loader';
+    element.appendChild(loader);
+    return loader;
+}
+
+// Form validation with cosmic effects
+function initializeFormValidation() {
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        const inputs = form.querySelectorAll('input, textarea, select');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--cosmic-cyan)';
+                this.style.boxShadow = '0 0 20px rgba(66, 226, 184, 0.3)';
+            });
             
-            btnText.innerHTML = '<div class="cosmic-loader"></div>';
-            btn.disabled = true;
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = 'var(--cosmic-cyan)';
+                } else {
+                    this.style.borderColor = 'var(--cosmic-pink)';
+                    this.style.boxShadow = '0 0 20px rgba(247, 37, 133, 0.3)';
+                }
+            });
         });
-    </script>
-</body>
-</html>
+    });
+}
+
+// Initialize theme on page load
+window.addEventListener('load', function() {
+    animateStatusIndicators();
+    initializeConsoleEffect();
+    initializeFormValidation();
+    
+    // Add cosmic class to body
+    document.body.classList.add('cosmic-theme');
+    
+    // Preload animations
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+        document.body.style.transition = 'opacity 0.5s ease-in-out';
+    }, 100);
+});
 EOF
-
-    # Crea layout principale
-    mkdir -p "$THEME_DIR/resources/views/layouts"
-    cat > "$THEME_DIR/resources/views/layouts/app.blade.php" << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ config('app.name', 'Pterodactyl') }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="/css/cosmicpulse.css">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('index') }}">
-                🌌 {{ config('app.name', 'Pterodactyl') }}
-            </a>
-        </div>
-    </nav>
-    
-    <main class="container" style="margin-top: 2rem;">
-        @yield('content')
-    </main>
-    
-    <script src="{{ mix('js/app.js') }}"></script>
-</body>
-</html>
-EOF
-
-    success "Struttura tema creata"
-}
-
-# Installa tema
-install_theme() {
-    log "Installazione tema CosmicPulse..."
-    
-    # Verifica e prepara directory CSS
-    CSS_DIR="/var/www/pterodactyl/public/css"
-    
-    if [[ -f "$CSS_DIR" ]]; then
-        # Se css esiste come file, fai backup e rimuovi
-        warning "File 'css' trovato invece di directory, creando backup..."
-        mv "$CSS_DIR" "${CSS_DIR}.backup.$(date +%s)"
-    fi
-    
-    # Crea directory CSS se non esiste
-    mkdir -p "$CSS_DIR"
-    
-    # Verifica che la directory sia stata creata correttamente
-    if [[ ! -d "$CSS_DIR" ]]; then
-        error "Impossibile creare directory $CSS_DIR"
-    fi
-    
-    # Copia file CSS
-    cp "$THEME_DIR/public/cosmicpulse.css" "$CSS_DIR/"
-    
-    # Verifica che il file sia stato copiato
-    if [[ ! -f "$CSS_DIR/cosmicpulse.css" ]]; then
-        error "Impossibile copiare il file CSS"
-    fi
-    
-    # Installa tramite Blueprint se disponibile
-    if command -v blueprint &> /dev/null; then
-        cd "$THEME_DIR"
-        blueprint -install
-    else
-        # Installazione manuale
-        warning "Blueprint non disponibile, installazione manuale..."
-        
-        # Verifica e crea directory per i template
-        mkdir -p "/var/www/pterodactyl/resources/views/auth"
-        mkdir -p "/var/www/pterodactyl/resources/views/layouts"
-        
-        # Copia templates
-        cp -r "$THEME_DIR/resources/views/"* "/var/www/pterodactyl/resources/views/" 2>/dev/null || true
-        
-        # Imposta permessi
-        chown -R www-data:www-data "/var/www/pterodactyl/resources/views/" 2>/dev/null || true
-        chown www-data:www-data "/var/www/pterodactyl/public/css/cosmicpulse.css" 2>/dev/null || true
-    fi
-    
-    success "Tema installato con successo"
-}
-
-# Configura tema
-configure_theme() {
-    log "Configurazione tema..."
-    
-    # Backup configurazioni esistenti
-    if [[ -f "/var/www/pterodactyl/config/app.php" ]]; then
-        cp "/var/www/pterodactyl/config/app.php" "/var/www/pterodactyl/config/app.php.backup.$(date +%s)"
-        success "Backup configurazione creato"
-    fi
-    
-    # Riavvia servizi se necessario
-    if systemctl is-active --quiet nginx; then
-        systemctl reload nginx
-        success "Nginx ricaricato"
-    fi
-    
-    if systemctl is-active --quiet apache2; then
-        systemctl reload apache2
-        success "Apache ricaricato"
-    fi
-}
-
-# Cleanup
-cleanup() {
-    log "Pulizia file temporanei..."
-    rm -rf "$THEME_DIR"
-    success "Pulizia completata"
-}
-
-# Test installazione
-test_installation() {
-    log "Test installazione..."
-    
-    if [[ -f "/var/www/pterodactyl/public/css/cosmicpulse.css" ]]; then
-        success "File CSS trovato"
-        
-        # Test dimensione file
-        CSS_SIZE=$(stat -c%s "/var/www/pterodactyl/public/css/cosmicpulse.css")
-        if [[ $CSS_SIZE -gt 1000 ]]; then
-            success "File CSS valido (${CSS_SIZE} bytes)"
-        else
-            warning "File CSS potrebbe essere corrotto"
-        fi
-    else
-        error "File CSS non trovato dopo l'installazione"
-    fi
-}
-
-# Mostra informazioni finali
-show_completion_info() {
-    clear
-    echo -e "${GREEN}${BOLD}"
-    echo "  ╔═══════════════════════════════════════════════════════════════╗"
-    echo "  ║                                                               ║"
-    echo "  ║                    ✨ INSTALLAZIONE COMPLETATA ✨             ║"
-    echo "  ║                                                               ║"
-    echo "  ║                   🌌 CosmicPulse Theme 🌌                    ║"
-    echo "  ║                        Attivo e Funzionante                   ║"
-    echo "  ║                                                               ║"
-    echo "  ╚═══════════════════════════════════════════════════════════════╝"
-    echo -e "${NC}"
-    
-    echo -e "${CYAN}📋 Informazioni installazione:${NC}"
-    echo -e "${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${GREEN}✓${NC} Tema CosmicPulse installato"
-    echo -e "${GREEN}✓${NC} File CSS attivati"
-    echo -e "${GREEN}✓${NC} Template di login personalizzati"
-    echo -e "${GREEN}✓${NC} Effetti cosmici abilitati"
-    echo -e "${GREEN}✓${NC} Animazioni spaziali attive"
-    echo
-    
-    echo -e "${YELLOW}🚀 Caratteristiche del tema:${NC}"
-    echo -e "${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "• 🌌 Design spaziale ispirato a Nebula"
-    echo -e "• ✨ Animazioni fluide e moderne"
-    echo -e "• 🎨 Palette colori viola/cosmic"
-    echo -e "• 🌟 Effetti particellari animati"
-    echo -e "• 📱 Design responsive per mobile"
-    echo -e "• 🔒 Pagina login personalizzata"
-    echo -e "• ⚡ Performance ottimizzate"
-    echo
-    
-    echo -e "${PURPLE}🎯 Prossimi passi:${NC}"
-    echo -e "${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "1. Svuota cache del browser (Ctrl+F5)"
-    echo -e "2. Accedi al pannello per vedere il nuovo tema"
-    echo -e "3. Controlla che tutti gli elementi siano visibili"
-    echo -e "4. Se hai problemi, controlla i log di nginx/apache"
-    echo
-    
-    echo -e "${BLUE}🔧 Comandi utili:${NC}"
-    echo -e "${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "• Ricarica nginx: ${CYAN}sudo systemctl reload nginx${NC}"
-    echo -e "• Ricarica apache: ${CYAN}sudo systemctl reload apache2${NC}"
-    echo -e "• Check logs: ${CYAN}sudo tail -f /var/log/nginx/error.log${NC}"
-    echo -e "• Backup ripristino: ${CYAN}Backup salvati in /var/www/pterodactyl/config/${NC}"
-    echo
-    
-    echo -e "${GREEN}🌟 Grazie per aver scelto CosmicPulse! 🌟${NC}"
-    echo -e "${CYAN}Il tuo pannello Pterodactyl ora ha un aspetto cosmico! 🚀${NC}"
-    echo
-}
-
-# Menu principale
-show_menu() {
-    while true; do
-        show_banner
-        echo -e "${WHITE}Seleziona un'opzione:${NC}"
-        echo -e "${CYAN}1)${NC} Installazione completa (Consigliata)"
-        echo -e "${CYAN}2)${NC} Solo installazione tema"
-        echo -e "${CYAN}3)${NC} Solo test sistema"
-        echo -e "${CYAN}4)${NC} Disinstalla tema"
-        echo -e "${CYAN}5)${NC} Mostra informazioni"
-        echo -e "${CYAN}0)${NC} Esci"
-        echo
-        echo -ne "${YELLOW}Inserisci la tua scelta [0-5]: ${NC}"
-        read -r choice
-        
-        case $choice in
-            1)
-                full_installation
-                break
-                ;;
-            2)
-                theme_only_installation
-                break
-                ;;
-            3)
-                system_test
-                ;;
-            4)
-                uninstall_theme
-                ;;
-            5)
-                show_info
-                ;;
-            0)
-                echo -e "${GREEN}Arrivederci! 👋${NC}"
-                exit 0
-                ;;
-            *)
-                echo -e "${RED}Opzione non valida!${NC}"
-                sleep 2
-                ;;
-        esac
-    done
-}
-
-# Installazione completa
-full_installation() {
-    show_banner
-    echo -e "${CYAN}🚀 Avvio installazione completa CosmicPulse...${NC}"
-    echo
-    
-    check_root
-    check_pterodactyl
-    check_blueprint
-    create_theme_structure
-    install_theme
-    configure_theme
-    test_installation
-    cleanup
-    show_completion_info
-    
-    echo -ne "${YELLOW}Premi INVIO per continuare...${NC}"
-    read -r
-}
-
-# Solo installazione tema
-theme_only_installation() {
-    show_banner
-    echo -e "${CYAN}🎨 Installazione solo tema...${NC}"
-    echo
-    
-    check_root
-    check_pterodactyl
-    create_theme_structure
-    install_theme
-    test_installation
-    cleanup
-    
-    success "Tema installato! Ricarica il browser per vedere i cambiamenti."
-    echo -ne "${YELLOW}Premi INVIO per continuare...${NC}"
-    read -r
-}
-
-# Test sistema
-system_test() {
-    show_banner
-    echo -e "${CYAN}🔍 Test sistema in corso...${NC}"
-    echo
-    
-    check_root
-    check_pterodactyl
-    check_blueprint
-    
-    # Test aggiuntivi
-    log "Test permessi directory..."
-    
-    # Verifica struttura directory Pterodactyl
-    CSS_DIR="/var/www/pterodactyl/public/css"
-    
-    if [[ -f "$CSS_DIR" ]]; then
-        warning "File 'css' trovato invece di directory"
-        log "Verrà convertito in directory durante l'installazione"
-    elif [[ -d "$CSS_DIR" ]]; then
-        if [[ -w "$CSS_DIR" ]]; then
-            success "Directory CSS scrivibile"
-        else
-            warning "Directory CSS non scrivibile"
-        fi
-    else
-        log "Directory CSS non esiste, verrà creata"
-    fi
-    
-    log "Test spazio disco..."
-    DISK_SPACE=$(df /var/www/pterodactyl | awk 'NR==2 {print $4}')
-    if [[ $DISK_SPACE -gt 100000 ]]; then
-        success "Spazio disco sufficiente"
-    else
-        warning "Spazio disco limitato"
-    fi
-    
-    log "Test servizi web..."
-    if systemctl is-active --quiet nginx || systemctl is-active --quiet apache2; then
-        success "Server web attivo"
-    else
-        warning "Nessun server web attivo rilevato"
-    fi
-    
-    echo -e "${GREEN}Test completato!${NC}"
-    echo -ne "${YELLOW}Premi INVIO per continuare...${NC}"
-    read -r
-}
-
-# Disinstallazione tema
-uninstall_theme() {
-    show_banner
-    echo -e "${RED}🗑️  Disinstallazione CosmicPulse...${NC}"
-    echo
-    
-    echo -ne "${YELLOW}Sei sicuro di voler disinstallare il tema? [y/N]: ${NC}"
-    read -r confirm
-    
-    if [[ $confirm =~ ^[Yy]$ ]]; then
-        log "Rimozione file tema..."
-        
-        # Rimuovi CSS
-        if [[ -f "/var/www/pterodactyl/public/css/cosmicpulse.css" ]]; then
-            rm "/var/www/pterodactyl/public/css/cosmicpulse.css"
-            success "File CSS rimosso"
-        fi
-        
-        # Ripristina backup se disponibile
-        BACKUP_FILE=$(ls -t /var/www/pterodactyl/config/app.php.backup.* 2>/dev/null | head -n1)
-        if [[ -f "$BACKUP_FILE" ]]; then
-            cp "$BACKUP_FILE" "/var/www/pterodactyl/config/app.php"
-            success "Configurazione ripristinata da backup"
-        fi
-        
-        success "Tema disinstallato!"
-    else
-        log "Disinstallazione annullata"
-    fi
-    
-    echo -ne "${YELLOW}Premi INVIO per continuare...${NC}"
-    read -r
-}
-
-# Mostra informazioni
-show_info() {
-    show_banner
-    echo -e "${CYAN}ℹ️  Informazioni CosmicPulse Theme${NC}"
-    echo -e "${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo
-    echo -e "${BOLD}Nome:${NC} CosmicPulse"
-    echo -e "${BOLD}Versione:${NC} 1.0.0"
-    echo -e "${BOLD}Compatibilità:${NC} Pterodactyl Panel + Blueprint"
-    echo -e "${BOLD}Tema ispirato a:${NC} Nebula Space Theme"
-    echo -e "${BOLD}Caratteristiche:${NC}"
-    echo -e "  • Design spaziale moderno"
-    echo -e "  • Animazioni CSS avanzate"
-    echo -e "  • Effetti particellari"
-    echo -e "  • Login page personalizzata"
-    echo -e "  • Palette colori viola/cosmic"
-    echo -e "  • Responsive design"
-    echo
-    echo -e "${BOLD}Requisiti:${NC}"
-    echo -e "  • Pterodactyl Panel (ultima versione)"
-    echo -e "  • Blueprint Extension (opzionale ma consigliato)"
-    echo -e "  • Nginx o Apache"
-    echo -e "  • Permessi root per installazione"
-    echo
-    echo -e "${BOLD}File installati:${NC}"
-    echo -e "  • /var/www/pterodactyl/public/css/cosmicpulse.css"
-    echo -e "  • /var/www/pterodactyl/resources/views/auth/login.blade.php"
-    echo -e "  • /var/www/pterodactyl/resources/views/layouts/app.blade.php"
-    echo
-    echo -ne "${YELLOW}Premi INVIO per continuare...${NC}"
-    read -r
-}
-
-# Gestione errori
-handle_error() {
-    echo -e "${RED}${BOLD}❌ ERRORE CRITICO${NC}"
-    echo -e "${RED}Lo script è stato interrotto a causa di un errore.${NC}"
-    echo -e "${YELLOW}Controlla i log sopra per maggiori dettagli.${NC}"
-    cleanup
-    exit 1
-}
-
-# Trap per gestire interruzioni
-trap handle_error ERR
-trap 'echo -e "\n${YELLOW}Script interrotto dall utente${NC}"; cleanup; exit 1' INT
-
-# Controlli preliminari
-preliminary_checks() {
-    # Controlla connessione internet
-    if ! ping -c 1 google.com &> /dev/null; then
-        warning "Connessione internet non disponibile"
-    fi
-    
-    # Controlla se è già installato
-    if [[ -f "/var/www/pterodactyl/public/css/cosmicpulse.css" ]]; then
-        warning "CosmicPulse sembra già installato"
-        echo -ne "${YELLOW}Vuoi reinstallare? [y/N]: ${NC}"
-        read -r reinstall
-        if [[ ! $reinstall =~ ^[Yy]$ ]]; then
-            exit 0
-        fi
-    fi
-}
-
-# Script principale
-main() {
-    # Controlli preliminari
-    preliminary_checks
-    
-    # Mostra menu se non ci sono argomenti
-    if [[ $# -eq 0 ]]; then
-        show_menu
-    else
-        # Modalità automatica con argomenti
-        case "$1" in
-            "install"|"--install")
-                full_installation
-                ;;
-            "theme-only"|"--theme-only")
-                theme_only_installation
-                ;;
-            "test"|"--test")
-                system_test
-                ;;
-            "uninstall"|"--uninstall")
-                uninstall_theme
-                ;;
-            "info"|"--info")
-                show_info
-                ;;
-            *)
-                echo -e "${RED}Argomento non riconosciuto: $1${NC}"
-                echo -e "${CYAN}Uso: $0 [install|theme-only|test|uninstall|info]${NC}"
-                exit 1
-                ;;
-        esac
-    fi
-}
-
-# Avvia script
-main "$@"
