@@ -116,7 +116,8 @@ create_theme_structure() {
     echo -e "${BLUE}🏗️ Creando struttura del tema...${NC}"
     
     local theme_dir="/tmp/cosmicpulse_theme"
-    rm -rf $theme_dir
+    # Fix permission issues
+    sudo rm -rf $theme_dir 2>/dev/null || true
     mkdir -p $theme_dir
     
     # Create main theme files
@@ -553,6 +554,11 @@ main() {
     echo -e "${CYAN}🚀 Iniziando l'installazione di CosmicPulse Theme...${NC}"
     echo
     
+    # Initial cleanup
+    echo -e "${YELLOW}🧹 Pulizia file temporanei precedenti...${NC}"
+    sudo rm -rf /tmp/cosmicpulse_theme 2>/dev/null || true
+    sudo rm -f /tmp/cosmicpulse_* 2>/dev/null || true
+    
     check_root
     check_requirements
     create_theme_structure
@@ -561,16 +567,16 @@ main() {
     apply_theme
     clear_cache
     
-    # Cleanup
-    rm -rf /tmp/cosmicpulse_theme
-    rm -f /tmp/cosmicpulse_*.css
-    rm -f /tmp/cosmicpulse_*.php
+    # Cleanup with proper permissions
+    sudo rm -rf /tmp/cosmicpulse_theme 2>/dev/null || true
+    sudo rm -f /tmp/cosmicpulse_*.css 2>/dev/null || true
+    sudo rm -f /tmp/cosmicpulse_*.php 2>/dev/null || true
     
     show_completion
 }
 
 # Error handling
-trap 'echo -e "${RED}❌ Errore durante l'\''installazione!${NC}"; exit 1' ERR
+trap 'echo -e "${RED}❌ Errore durante l'\''installazione!${NC}"; sudo rm -rf /tmp/cosmicpulse_theme 2>/dev/null || true; exit 1' ERR
 
 # Run main function
 main "$@"
