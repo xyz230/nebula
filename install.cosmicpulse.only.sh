@@ -748,11 +748,30 @@ EOF
 install_theme() {
     log "Installazione tema CosmicPulse..."
     
+    # Verifica e prepara directory CSS
+    CSS_DIR="/var/www/pterodactyl/public/css"
+    
+    if [[ -f "$CSS_DIR" ]]; then
+        # Se css esiste come file, fai backup e rimuovi
+        warning "File 'css' trovato invece di directory, creando backup..."
+        mv "$CSS_DIR" "${CSS_DIR}.backup.$(date +%s)"
+    fi
+    
     # Crea directory CSS se non esiste
-    mkdir -p "/var/www/pterodactyl/public/css"
+    mkdir -p "$CSS_DIR"
+    
+    # Verifica che la directory sia stata creata correttamente
+    if [[ ! -d "$CSS_DIR" ]]; then
+        error "Impossibile creare directory $CSS_DIR"
+    fi
     
     # Copia file CSS
-    cp "$THEME_DIR/public/cosmicpulse.css" "/var/www/pterodactyl/public/css/"
+    cp "$THEME_DIR/public/cosmicpulse.css" "$CSS_DIR/"
+    
+    # Verifica che il file sia stato copiato
+    if [[ ! -f "$CSS_DIR/cosmicpulse.css" ]]; then
+        error "Impossibile copiare il file CSS"
+    fi
     
     # Installa tramite Blueprint se disponibile
     if command -v blueprint &> /dev/null; then
@@ -762,12 +781,16 @@ install_theme() {
         # Installazione manuale
         warning "Blueprint non disponibile, installazione manuale..."
         
+        # Verifica e crea directory per i template
+        mkdir -p "/var/www/pterodactyl/resources/views/auth"
+        mkdir -p "/var/www/pterodactyl/resources/views/layouts"
+        
         # Copia templates
-        cp -r "$THEME_DIR/resources/views/"* "/var/www/pterodactyl/resources/views/"
+        cp -r "$THEME_DIR/resources/views/"* "/var/www/pterodactyl/resources/views/" 2>/dev/null || true
         
         # Imposta permessi
-        chown -R www-data:www-data "/var/www/pterodactyl/resources/views/"
-        chown www-data:www-data "/var/www/pterodactyl/public/css/cosmicpulse.css"
+        chown -R www-data:www-data "/var/www/pterodactyl/resources/views/" 2>/dev/null || true
+        chown www-data:www-data "/var/www/pterodactyl/public/css/cosmicpulse.css" 2>/dev/null || true
     fi
     
     success "Tema installato con successo"
@@ -972,13 +995,20 @@ system_test() {
     # Test aggiuntivi
     log "Test permessi directory..."
     
-    # Crea directory CSS se non esiste
-    mkdir -p "/var/www/pterodactyl/public/css"
+    # Verifica struttura directory Pterodactyl
+    CSS_DIR="/var/www/pterodactyl/public/css"
     
-    if [[ -w "/var/www/pterodactyl/public/css" ]]; then
-        success "Directory CSS scrivibile"
+    if [[ -f "$CSS_DIR" ]]; then
+        warning "File 'css' trovato invece di directory"
+        log "Verrà convertito in directory durante l'installazione"
+    elif [[ -d "$CSS_DIR" ]]; then
+        if [[ -w "$CSS_DIR" ]]; then
+            success "Directory CSS scrivibile"
+        else
+            warning "Directory CSS non scrivibile"
+        fi
     else
-        warning "Directory CSS non scrivibile"
+        log "Directory CSS non esiste, verrà creata"
     fi
     
     log "Test spazio disco..."
