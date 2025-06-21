@@ -748,6 +748,9 @@ EOF
 install_theme() {
     log "Installazione tema CosmicPulse..."
     
+    # Crea directory CSS se non esiste
+    mkdir -p "/var/www/pterodactyl/public/css"
+    
     # Copia file CSS
     cp "$THEME_DIR/public/cosmicpulse.css" "/var/www/pterodactyl/public/css/"
     
@@ -968,6 +971,10 @@ system_test() {
     
     # Test aggiuntivi
     log "Test permessi directory..."
+    
+    # Crea directory CSS se non esiste
+    mkdir -p "/var/www/pterodactyl/public/css"
+    
     if [[ -w "/var/www/pterodactyl/public/css" ]]; then
         success "Directory CSS scrivibile"
     else
